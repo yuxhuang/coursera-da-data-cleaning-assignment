@@ -1,8 +1,7 @@
 ## read a single data set by type: 'train' or 'test'
 read.activity_folder <- function(type) {
-  library(data.table)
-  library(dplyr)
-  
+  library(dtplyr)
+
   prefix <- file.path('./UCI HAR Dataset', type)
   
   # load X, features
@@ -26,9 +25,8 @@ read.activity_folder <- function(type) {
 
 ## Read both train and test activity data set from 'UCI HAR Dataset' folder.
 read.activity_data <- function() {
-  library(data.table)
-  library(dplyr)
-  
+  library(dtplyr)
+
   dt <- bind_rows(read.activity_folder('train'), read.activity_folder('test')) %>%
     select(subject, activity, matches('(mean|std)\\(\\)'))
   
@@ -49,14 +47,16 @@ read.activity_data <- function() {
   
   names(dt) <- n
   
-  dt
+  dt %>%
+    arrange(subject, activity)
 }
 
 summarize.activity_data <- function(dt) {
-  library(dplyr)
+  library(dtplyr)
   dt %>%
     group_by(subject, activity) %>%
-    summarize_each(funs(mean))
+    summarize_each(funs(mean)) %>%
+    arrange(subject, activity)
 }
 
 # Create the data tables
