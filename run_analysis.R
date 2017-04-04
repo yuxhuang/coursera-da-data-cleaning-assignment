@@ -14,7 +14,7 @@ read.activity_folder <- function(type) {
   labels <- fread(file.path('./UCI HAR Dataset/activity_labels.txt'))
   y <- fread(file.path(prefix, paste('y_', type, '.txt', sep='')))
   names(y) <- 'activity'
-  y <- mutate(y, activity_label = factor(labels$V2[activity]))
+  y <- mutate(y, activity = factor(labels$V2[activity]))
   
   # load subjects
   subject <- fread(file.path(prefix, paste('subject_', type, '.txt', sep='')))
@@ -30,7 +30,7 @@ read.activity_data <- function() {
   library(dplyr)
   
   dt <- bind_rows(read.activity_folder('train'), read.activity_folder('test')) %>%
-    select(subject, activity, activity_label, matches('(mean|std)\\(\\)'))
+    select(subject, activity, matches('(mean|std)\\(\\)'))
   
   # clean up names
   n <- names(dt)
@@ -55,7 +55,7 @@ read.activity_data <- function() {
 summarize.activity_data <- function(dt) {
   library(dplyr)
   dt %>%
-    group_by(subject, activity_label) %>%
+    group_by(subject, activity) %>%
     summarize_each(funs(mean))
 }
 
@@ -63,5 +63,5 @@ summarize.activity_data <- function(dt) {
 result <- read.activity_data()
 result_sum <- summarize.activity_data(result)
 
-write.csv(result, './activity_data.csv')
-write.csv(result_sum, './activity_summary.csv')
+write.csv(result, './activity_data.csv', row.names = FALSE)
+write.csv(result_sum, './activity_summary.csv', row.names = FALSE)
