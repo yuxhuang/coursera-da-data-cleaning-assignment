@@ -34,6 +34,7 @@ read.activity_data <- function() {
   n <- gsub('^t', 'linear_', n)
   n <- gsub('^f', 'fourier_', n)
   n <- gsub('Body', 'body_', n)
+  n <- gsub('Gravity', 'gravity_', n)
   n <- gsub('Acc', 'acceleration_', n)
   n <- gsub('Gyro', 'gyro_', n)
   n <- gsub('Jerk', 'jerk_', n)
