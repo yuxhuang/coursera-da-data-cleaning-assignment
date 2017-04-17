@@ -31,7 +31,7 @@ read.activity_data <- function() {
   
   # clean up names
   n <- names(dt)
-  n <- gsub('^t', 'linear_', n)
+  n <- gsub('^t', '', n)
   n <- gsub('^f', 'fourier_', n)
   n <- gsub('Body', 'body_', n)
   n <- gsub('Gravity', 'gravity_', n)
