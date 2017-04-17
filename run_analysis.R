@@ -27,7 +27,7 @@ read.activity_folder <- function(type) {
 ## Read both train and test activity data set from 'UCI HAR Dataset' folder.
 read.activity_data <- function() {
   dt <- bind_rows(read.activity_folder('train'), read.activity_folder('test')) %>%
-    select(subject, activity, matches('(mean|std)'))
+    select(subject, activity, matches('(mean|std|meanFreq)\\(\\)'))
   
   # clean up names
   n <- names(dt)
@@ -41,6 +41,8 @@ read.activity_data <- function() {
   n <- gsub('Mag', 'magnitude_', n)
   
   n <- gsub('-mean\\(\\)-([XYZ])', '\\1_mean', n)
+  n <- gsub('-meanFreq\\(\\)-([XYZ])', '\\1_frequency_mean', n)
+  n <- gsub('-meanFreq\\(\\)', 'frequency_mean', n)
   n <- gsub('-std\\(\\)-([XYZ])', '\\1_std', n)
   n <- gsub('-mean\\(\\)', 'mean', n)
   n <- gsub('-std\\(\\)', 'std', n)
