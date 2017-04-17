@@ -27,7 +27,7 @@ read.activity_folder <- function(type) {
 ## Read both train and test activity data set from 'UCI HAR Dataset' folder.
 read.activity_data <- function() {
   dt <- bind_rows(read.activity_folder('train'), read.activity_folder('test')) %>%
-    select(subject, activity, matches('(mean|std)\\(\\)'))
+    select(subject, activity, matches('(mean|std)'))
   
   # clean up names
   n <- names(dt)
